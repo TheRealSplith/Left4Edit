@@ -168,7 +168,7 @@ namespace Left4Edit.Models.Repo
 
         public void UpdateNode(Node node)
         {
-            if (CustDB.Nodes.Find(node.ID) == null)
+            if (!CustDB.Nodes.Any(n => n.ID == node.ID))
                 throw new ArgumentException("Key not found");
 
             CustDB.Nodes.Attach(node);
@@ -177,7 +177,7 @@ namespace Left4Edit.Models.Repo
 
         public void UpdateCredential(Credential credential)
         {
-            if (CustDB.Credentials.Find(credential.ID) == null)
+            if (!CustDB.Credentials.Any(c => c.ID == credential.ID))
                 throw new ArgumentException("Key not found");
 
             CustDB.Credentials.Attach(credential);

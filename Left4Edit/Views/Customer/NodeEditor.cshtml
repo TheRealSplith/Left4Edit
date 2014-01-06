@@ -1,0 +1,29 @@
+﻿<div class="modal fade" id="nodeDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div data-bind="with: activeNode" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title" id="myModalTitle">Add Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <span class="input-group-addon">Name</span>
+          <input type="text" data-bind="value: Name" class="form-control" placeholder="Name" />
+        </div>
+        <br />
+        <div class="input-group">
+          <span class="input-group-addon">Address</span>
+          <input type="text" data-bind="value: Address" class="form-control" placeholder="Address" />
+        </div>
+        <br />
+        <div class="input-group">
+          <span class="input-group-addon">Comment</span>
+          <input type="text" data-bind="value: Comment" class="form-control" placeholder="Comment" />
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" data-bind="click: $parent.commitNode" data-dismiss="modal" class="btn btn-primary btn-success">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

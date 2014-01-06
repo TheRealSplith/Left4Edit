@@ -44,19 +44,19 @@ namespace Left4Edit.Tests.Models
             // build node1
             node1.Address = "node1.billmcg.com";
             node1.Name = "Node1 is best node!";
-            node1.ConnectionComment = "No comment here";
+            node1.Comment = "No comment here";
             node1.MyCustomer = customer;
 
             // build node2
             node2.Address = "node2.billmcg.com";
             node2.Name = "Node2 FTW!";
-            node2.ConnectionComment = "Worst Connection US";
+            node2.Comment = "Worst Connection US";
             node2.MyCustomer = customer;
 
             // build node3
             node2.Address = "node3.billmcg.com";
             node2.Name = "Test Server";
-            node3.ConnectionComment = "Use RDP fool";
+            node3.Comment = "Use RDP fool";
             node3.MyCustomer = customer;
 
             // build credential1
@@ -121,17 +121,17 @@ namespace Left4Edit.Tests.Models
                 // build node1
                 node1.Address = "node1.billmcg.com";
                 node1.Name = "Node1 is best node!";
-                node1.ConnectionComment = "No comment here";
+                node1.Comment = "No comment here";
 
                 // build node2
                 node2.Address = "node2.billmcg.com";
                 node2.Name = "Node2 FTW!";
-                node2.ConnectionComment = "Worst Connection US";
+                node2.Comment = "Worst Connection US";
 
                 // build node3
                 node2.Address = "node3.billmcg.com";
                 node2.Name = "Test Server";
-                node3.ConnectionComment = "Use RDP fool";
+                node3.Comment = "Use RDP fool";
 
                 // build credential1
                 credential1.Domain = "SPLITH";

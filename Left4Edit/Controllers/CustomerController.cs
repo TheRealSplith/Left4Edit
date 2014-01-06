@@ -29,5 +29,19 @@ namespace Left4Edit.Controllers
             return View();
         }
 
+        public PartialViewResult ContactEditor()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult CredentialEditor()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult NodeEditor()
+        {
+            return PartialView();
+        }
     }
 }

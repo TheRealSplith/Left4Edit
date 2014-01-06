@@ -1,0 +1,43 @@
+﻿<!-- Partial View for Contact editor Modal-->
+@{
+  Layout = null;
+}
+<div class="modal fade" id="contactDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div data-bind="with: activeContact" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title" id="myModalTitle">Add Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-inline">
+          <div class="input-group">
+            <span class="input-group-addon">First Name</span>
+            <input type="text" data-bind="value: FirstName" class="form-control" placeholder="First Name" />
+            <span class="input-group-addon">Last Name</span>
+            <input type="text" data-bind="value: LastName" class="form-control" placeholder="LastName" />
+          </div>
+        </div>
+        <br />
+        <div class="input-group">
+          <span class="input-group-addon">Email</span>
+          <input type="text" data-bind="value: Email" class="form-control" placeholder="Email" />
+        </div>
+        <br />
+        <div class="input-group">
+          <span class="input-group-addon">Phone</span>
+          <input type="text" data-bind="value: Phone" class="form-control" placeholder="Phone" />
+        </div>
+        <br />
+        <div class="input-group">
+          <span class="input-group-addon">Fax</span>
+          <input type="text" data-bind="value: Fax" class="form-control" placeholder="Fax" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" data-bind="click: $parent.commitContact" data-dismiss="modal" class="btn btn-primary btn-success">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

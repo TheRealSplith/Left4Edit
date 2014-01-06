@@ -84,7 +84,18 @@ namespace Left4Edit.Hubs
 
         public void GetCredentialByCustomer(Int32 customerID)
         {
+        }
 
+        public void UpdateCredential(Credential credential)
+        {
+            repo.UpdateCredential(credential);
+            repo.SaveChanges();
+
+            this.Clients.Group("credentials").refreshCredentials();
+            if (credential.NodeID.HasValue)
+                this.Clients.Group("credentials.NodeID:" + credential.NodeID).returnUpdateCredential(credential);
+            else
+                this.Clients.Group("credentials.CustomerID:" + credential.CustomerID.Value).returnUpdateCredential(credential);
         }
         #endregion
 
@@ -93,6 +104,9 @@ namespace Left4Edit.Hubs
         {
             repo.UpdateContact(contact);
             repo.SaveChanges();
+
+            this.Clients.Group("contacts").refreshContacts();
+            this.Clients.Group("contacts.CustomerID:" + contact.CustomerID).returnUpdateContact(contact);
         }
         #endregion
     }

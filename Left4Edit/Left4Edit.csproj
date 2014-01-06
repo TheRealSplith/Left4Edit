@@ -261,6 +261,7 @@
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Site\Customer_Detail_VM.js" />
     <Content Include="Scripts\Site\Left4EditModels.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -295,6 +296,9 @@
     <None Include="readme.txt" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\Customer\ContactEditor.cshtml" />
+    <Content Include="Views\Customer\CredentialEditor.cshtml" />
+    <Content Include="Views\Customer\NodeEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
