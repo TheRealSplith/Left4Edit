@@ -47,7 +47,7 @@ namespace Left4Edit.Hubs
             repo.AddCustomer(customer);
             repo.SaveChanges();
 
-            this.Clients.Group("customers").customersChanged();
+            this.Clients.Group("customers").refreshCustomers();
         }
 
         public void UpdateCustomer(Customer customer)
@@ -66,7 +66,7 @@ namespace Left4Edit.Hubs
                 repo.DeleteCustomer(repo.GetCustomer(customerID));
                 repo.SaveChanges();
 
-                this.Clients.Group("customers").customersChanged();
+                this.Clients.Group("customers").refreshCustomers();
                 this.Clients.Group("customer:" + customerID).removed();
             }
             catch (Exception ex)
@@ -97,6 +97,38 @@ namespace Left4Edit.Hubs
             else
                 this.Clients.Group("credentials.CustomerID:" + credential.CustomerID.Value).returnUpdateCredential(credential);
         }
+
+        public void DeleteCredential(Int32 credentialID)
+        {
+            try
+            {
+                var credential = repo.GetCredential(credentialID);
+                if (credential.CustomerID.HasValue)
+                {
+                    var customerID = credential.CustomerID.Value;
+                    repo.DeleteCrednetial(credential);
+                    repo.SaveChanges();
+
+                    this.Clients.Group("credentials").refreshCredentials(repo.GetCredentials());
+                    this.Clients.Group("credentials.CustomerID:" + customerID).refreshCredentials(repo.GetCustomerCredentials(customerID));
+                    this.Clients.Group("credential:" + credentialID).removed();
+                }
+                if (credential.NodeID.HasValue)
+                {
+                    var nodeID = credential.NodeID.Value;
+                    repo.DeleteCrednetial(credential);
+                    repo.SaveChanges();
+
+                    this.Clients.Group("credentials").refreshCredentials(repo.GetCredentials());
+                    this.Clients.Group("credentials.NodeID:" + nodeID).refreshCredentials(repo.GetNodeCredentials(nodeID));
+                    this.Clients.Group("credential:" + credentialID).removed();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Clients.Caller.raiseError(ex.GetType().Name, ex.Message);
+            }
+        }
         #endregion
 
         #region "Contact"
@@ -107,6 +139,62 @@ namespace Left4Edit.Hubs
 
             this.Clients.Group("contacts").refreshContacts();
             this.Clients.Group("contacts.CustomerID:" + contact.CustomerID).returnUpdateContact(contact);
+        }
+
+        public void DeleteContact(Int32 contactID)
+        {
+            try
+            {
+                var customerID = repo.GetContact(contactID).CustomerID.Value;
+                repo.DeleteContact(repo.GetContact(contactID));
+                repo.SaveChanges();
+
+                this.Clients.Group("contacts").refreshContacts(repo.GetContacts());
+                this.Clients.Group("contacts.CustomerID:" + customerID).refreshContacts(repo.GetCustomerContacts(customerID));
+                this.Clients.Group("contact:" + contactID).removed();
+            }
+            catch (Exception ex)
+            {
+                this.Clients.Caller.raiseError(ex.GetType().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region "Node"
+        public void UpdateNode(Node node)
+        {
+            repo.UpdateNode(node);
+            repo.SaveChanges();
+
+            this.Clients.Group("nodes").refreshNodes();
+            this.Clients.Group("nodes.CustomerID:" + node.CustomerID).returnUpdateNode(node);
+        }
+
+        public void AddNode(Node node, Int32 customerID)
+        {
+            repo.AddNodeToCustomer(node, customerID);
+            repo.SaveChanges();
+
+            this.Clients.Group("nodes").refreshNodes(repo.GetNodes());
+            this.Clients.Group("nodes.CustomerID:" + customerID).refreshNodes(repo.GetCustomerNodes(customerID));
+        }
+
+        public void DeleteNode(Int32 nodeID)
+        {
+            try
+            {
+                var customerID = repo.GetNode(nodeID).CustomerID.Value;
+                repo.DeleteNode(repo.GetNode(nodeID));
+                repo.SaveChanges();
+
+                this.Clients.Group("nodes").refreshNodes(repo.GetNodes());
+                this.Clients.Group("nodes.CustomerID:" + customerID).refreshNodes(repo.GetCustomerNodes(customerID));
+                this.Clients.Group("node:" + nodeID).removed();
+            }
+            catch (Exception ex)
+            {
+                this.Clients.Caller.raiseError(ex.GetType().Name, ex.Message);
+            }
         }
         #endregion
     }

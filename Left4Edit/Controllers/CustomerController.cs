@@ -24,24 +24,24 @@ namespace Left4Edit.Controllers
             return View(id.Value);
         }
 
-        public ActionResult NewPartial()
+        public PartialViewResult ContactEditor(String targetProperty, String commandName)
         {
-            return View();
+            return PartialView(new List<String>() { targetProperty, commandName });
         }
 
-        public PartialViewResult ContactEditor()
+        public PartialViewResult CredentialEditor(String targetProperty, String commandName)
         {
-            return PartialView();
+            return PartialView(new List<String>() { targetProperty, commandName });
         }
 
-        public PartialViewResult CredentialEditor()
+        public PartialViewResult NodeEditor(String targetProperty, String commandName)
         {
-            return PartialView();
+            return PartialView(new List<String>() { targetProperty, commandName });
         }
 
-        public PartialViewResult NodeEditor()
+        public PartialViewResult CustomerEditor(String targetProperty, String commandName)
         {
-            return PartialView();
+            return PartialView(new List<String>() { targetProperty, commandName });
         }
     }
 }

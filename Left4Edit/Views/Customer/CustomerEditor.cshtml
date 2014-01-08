@@ -1,0 +1,36 @@
+﻿@model List<System.String>
+<!-- Partial View for Customer editor Modal-->
+@{
+  Layout = null;
+}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div data-bind="with: @Model[0]" class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title" id="myModalTitle">Add Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div data-bind="css: { 'has-error': !Symbol.isValid() }">
+          <div class="input-group">
+            <span class="input-group-addon">Symbol</span>
+            <input type="text" data-bind="value: Symbol, valueUpdate: 'afterkeydown'" class="form-control" placeholder=" (ie ASA)" />
+          </div>
+          <span class="help-block" data-bind="validationMessage: Symbol"></span>
+        </div>
+        <br />
+        <div data-bind="css: { 'has-error': !Name.isValid() }">
+          <div class="input-group">
+            <span class="input-group-addon">Name</span>
+            <input type="text" data-bind="value: Name, valueUpdate: 'afterkeydown'" class="form-control" placeholder=" (ie AGC North America" />
+          </div>
+          <span class="help-block" data-bind="validationMessage: Name"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" data-dismiss="modal" data-bind="click: @Model[1], disable: !$data.isValid()" class="btn btn-primary btn-success">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

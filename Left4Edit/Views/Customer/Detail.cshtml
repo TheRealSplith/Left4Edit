@@ -14,54 +14,100 @@
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
     <h3>Contacts</h3>
-    <div data-bind="foreach: contacts">
-      <div class="col-sm-4">
-        <h3 data-bind="text: cFullName"></h3>
-        <h5 data-bind="text: Email"></h5>
-        <button data-bind="click: $parent.selectContact"
-                class="btn btn-primary btn-small" data-toggle="modal"
-                data-target="#contactDetail">
-          Details
-        </button>
-      </div>
-    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Commands</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: contacts">
+        <tr>
+          <td data-bind="text: cFullName"></td>
+          <td data-bind="text: Email"></td>
+          <td>
+            <button data-bind="click: $parent.selectContact"
+                    class="btn btn-primary btn-small" data-toggle="modal"
+                    data-target="#contactDetail">
+              Details
+              </button>
+            <button data-bind="click: $parent.deleteContact"
+                    class="btn btn-danger btn-small">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <!-- Credential fields -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
     <h3>Credentials</h3>
-    <div data-bind="foreach: credentials">
-      <div class="col-sm-4">
-        <h5 data-bind="text: cFullUN"></h5>
-        <h5 data-bind="text: Password"></h5>
-        <button data-bind="click: $parent.selectCredential"
-                class="btn btn-primary btn-small" data-toggle="modal"
-                data-target="#credentialDetail">
-          Details
-        </button>
-      </div>
-    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Password</th>
+          <th>Commands</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: credentials">
+        <tr>
+          <td data-bind="text: cFullUN"></td>
+          <td data-bind="text: Password"></td>
+          <td>
+            <button data-bind="click: $parent.selectCredential"
+                    class="btn btn-primary btn-small" data-toggle="modal"
+                    data-target="#credentialDetail">
+              Details
+            </button>
+            <button data-bind="click: $parent.deleteCredential"
+                    class="btn btn-danger btn-small">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <!-- Node fields -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
     <h3>Nodes</h3>
-    <div data-bind="foreach: nodes">
-      <div class="col-sm-4">
-        <h3 data-bind="text: Name"></h3>
-        <h5 data-bind="text: Address"></h5>
-        <button data-bind="click: $parent.selectNode"
-                class="btn btn-primary btn-small" data-toggle="modal"
-                data-target="#nodeDetail">
-          Details
-        </button>
-      </div>
-    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Commands</th>
+        </tr>
+      </thead>
+      <tbody data-bind="foreach: nodes">
+        <tr>
+          <td data-bind="text: Name"></td>
+          <td data-bind="text: Address"></td>
+          <td>
+            <button data-bind="click: $parent.selectNode"
+                    class="btn btn-primary btn-small" data-toggle="modal"
+                    data-target="#nodeDetail">
+              Details
+            </button>
+            <button data-bind="click: $parent.deleteNode"
+                    class="btn btn-danger btn-small">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <!-- Turn our model into JSON -->
+@section scripts {
 <script type="text/javascript">
   var MODEL = { CustomerID: @Model};
 </script>
@@ -74,10 +120,29 @@
 <script type="text/javascript" src="~/SCripts/Site/Customer_Detail_VM.js"></script>
 
 <!-- Contact editor modal -->
-@Html.Partial("ContactEditor")
+@Html.Action(
+  "ContactEditor", 
+  new { 
+    targetProperty = "activeContact", 
+    commandName = "$parent.commitContact" 
+  }
+)
 
 <!-- Credential editor modal -->
-@Html.Partial("CredentialEditor")
+@Html.Action(
+  "CredentialEditor",
+  new {
+    targetProperty = "activeCredential",
+    commandName = "$parent.commitCredential"
+  }
+)
 
 <!-- Node editor modal -->
-@Html.Partial("NodeEditor")
+@Html.Action(
+  "NodeEditor",
+  new {
+    targetProperty = "activeNode",
+    commandName = "$parent.commitNode"
+  }
+)
+}

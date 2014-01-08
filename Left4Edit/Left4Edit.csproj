@@ -260,8 +260,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Site\Customer_Detail_VM.js" />
+    <Content Include="Scripts\Site\Customer_Index_VM.js" />
     <Content Include="Scripts\Site\Left4EditModels.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -299,6 +301,7 @@
     <Content Include="Views\Customer\ContactEditor.cshtml" />
     <Content Include="Views\Customer\CredentialEditor.cshtml" />
     <Content Include="Views\Customer\NodeEditor.cshtml" />
+    <Content Include="Views\Customer\CustomerEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

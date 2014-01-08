@@ -24,36 +24,12 @@
   </div>
   <div class="col-md-8 col-md-offset-1">
     <div class="alert alert-danger alert-dismissable" data-bind="visible: showError">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <button type="button" class="close" data-bind="click: hideError" aria-hidden="true">&times;</button>
       <strong>Error!</strong> <span data-bind="text: errorMessage"></span>
     </div>
   </div>
 </div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div data-bind="with: newCustomer" class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title" id="myModalTitle">Add Customer</h4>
-      </div>
-      <div class="modal-body">
-        <div class="input-group">
-          <span class="input-group-addon">Symbol</span>
-          <input type="text" data-bind="value: Symbol" class="form-control" placeholder=" (ie ASA)" />
-        </div>
-        <br />
-        <div class="input-group">
-          <span class="input-group-addon">Name</span>
-          <input type="text" data-bind="value: Name" class="form-control" placeholder=" (ie AGC North America" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" data-bind="click: $parent.commitCustomer" data-dismiss="modal" class="btn btn-primary btn-success">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+@Html.Action("CustomerEditor",  new { targetProperty = "newCustomer", commandName = "$parent.commitCustomer"})
 <div class="row">
   <div class="col-md-8 col-md-offset-1">
     <table class="table table-striped">
@@ -64,97 +40,29 @@
           <th>Commands</th>
         </tr>
       </thead>
-      <tbody data-bind="template: { name: 'customerTemplate', foreach: customers }"></tbody>
+      <tbody data-bind="foreach: customers">
+        <tr>
+          <td data-bind="text: Symbol"></td>
+          <td data-bind="text: Name"></td>
+          <td>
+            <a data-bind="attr: { href: DetailLink }"
+               class="btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-pencil"></span>
+              Details
+            </a>
+            <a data-bind="click: $parent.deleteCustomer"
+               class="btn btn-danger btn-sm">
+              <span class="glyphicon glyphicon-remove"></span>
+              Delete
+            </a>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>
 
 @section scripts {
-  <script type="text/javascript" src="/Scripts/jquery-1.8.2.min.js"></script>
-  <script type="text/javascript" src="/Scripts/jquery.signalR-2.0.1.min.js"></script>
-  <script type="text/javascript" src="/signalr/hubs"></script>
-  <script type="text/javascript" src="~/Scripts/knockout-3.0.0.js"></script>
   <script type="text/javascript" src="/Scripts/Site/Left4EditModels.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      function IndexVM() {
-        // Members
-        this.newCustomer = ko.observable(new Left4Edit.customer(null, "", ""));
-        this.customers = ko.observableArray([]);
-        // Warning
-        this.showWarning = ko.observable(false);
-        this.warningMessage = ko.observable("");
-        // Error
-        this.showError = ko.observable(false);
-        this.errorMessage = ko.observable("");
-        // Visibility Assignment
-        var self = this;
-        var hub = $.connection.customerHub;
-        var customers = this.customers;
-        // End of Members
-
-        // Constructor
-        this.init = function () {
-          hub.server.register("customers");
-          hub.server.getCustomers();
-        }
-        // End of Constructor
-
-        // Client functions (Server called)
-        hub.client.returnCustomers = function(customerSet) {
-          customers([]);
-          customerSet.forEach(function(item) {
-            customers.push(new Left4Edit.customer(item.ID, item.Name, item.Symbol, item.Contacts));
-          });
-        }
-        hub.client.customersChanged = function () {
-          self.showWarning(true);
-          self.warningMessage("Customers collection has changed!");
-        }
-        hub.client.raiseError = function (exName, exMessage) {
-          self.showError(true);
-          self.errorMessage(exName + ": " + exMessage);
-        }
-        // End of Client Functions
-
-        // Commands
-        this.refreshCustomers = function () {
-          hub.server.getCustomers();
-          self.showWarning(false);
-        }
-        this.deleteCustomer = function (args) {
-          hub.server.deleteCustomer(args.ID());
-          self.customers.remove(args);
-        }
-        this.commitCustomer = function () {
-          hub.server.addCustomer({ "Symbol": self.newCustomer().Symbol(), "Name": self.newCustomer().Name() });
-          self.newCustomer().Symbol("");
-          self.newCustomer().Name("");
-        }
-        // End of Commands
-      }
-
-      var vm = new IndexVM();
-      $.connection.hub.start(function () { vm.init() });
-      ko.applyBindings(vm);
-    });
-  </script>
-  <script id="customerTemplate" type="text/html">
-    <tr>
-      <td data-bind="text: Symbol"></td>
-      <td data-bind="text: Name"></td>
-      <td>
-        <a data-bind="attr: { href: DetailLink }" 
-           class="btn btn-default btn-sm" > 
-          <span class="glyphicon glyphicon-pencil"></span>
-          Details
-        </a>
-        <a data-bind="click: $parent.deleteCustomer"
-           class="btn btn-danger btn-sm" > 
-          <span class="glyphicon glyphicon-remove"></span>
-          Delete
-        </a>
-      </td>
-    </tr>
-  </script>
-}
+  <script type="text/javascript" src="/Scripts/Site/Customer_Index_VM.js"></script>
+  }

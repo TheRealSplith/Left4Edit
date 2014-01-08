@@ -15,22 +15,26 @@ namespace Left4Edit.Models
             // Contacts contain Customers
             modelBuilder.Entity<Contact>().HasOptional(con => con.MyCustomer)
                                           .WithMany(cus => cus.Contacts)
-                                          .HasForeignKey(con => con.CustomerID);
+                                          .HasForeignKey(con => con.CustomerID)
+                                          .WillCascadeOnDelete(true);
 
             // Contacts contain Nodes
             modelBuilder.Entity<Node>().HasOptional(node => node.MyCustomer)
                                        .WithMany(cus => cus.Nodes)
-                                       .HasForeignKey(node => node.CustomerID);
+                                       .HasForeignKey(node => node.CustomerID)
+                                       .WillCascadeOnDelete(true);
 
             // Contacts contain Credentials
             modelBuilder.Entity<Credential>().HasOptional(cred => cred.MyCustomer)
                                              .WithMany(cus => cus.Credentials)
-                                             .HasForeignKey(cred => cred.CustomerID);
+                                             .HasForeignKey(cred => cred.CustomerID)
+                                             .WillCascadeOnDelete(false);
 
             // Nodes contain Credentails
             modelBuilder.Entity<Credential>().HasOptional(cred => cred.MyNode)
                                              .WithMany(node => node.Credentials)
-                                             .HasForeignKey(cred => cred.NodeID);
+                                             .HasForeignKey(cred => cred.NodeID)
+                                             .WillCascadeOnDelete(true);
         }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Contact> Contacts { get; set; }

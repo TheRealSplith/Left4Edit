@@ -30,8 +30,8 @@
         var self = this;
 
         this.ID = ko.observable(id);
-        this.Name = ko.observable(name);
-        this.Symbol = ko.observable(symbol);
+        this.Name = ko.observable(name).extend({ required: true, minLength: 2 });
+        this.Symbol = ko.observable(symbol).extend({ required: true, minLength: 3, maxLength: 3 });
         this.DetailLink = ko.computed(function () {
             return '/Customer/Detail/' + self.ID()
         });
@@ -44,6 +44,12 @@
         this.Address = ko.observable(address);
         this.Comment = ko.observable(comment);
         this.CustomerID = ko.observable(customerID);
+        // Functions
+        this.xCopy = function (node) {
+            self.Name(node.Name);
+            self.Address(node.Address);
+            self.Comment(node.Comment);
+        }
     }
     Left4Edit.credential = function (id, domain, userName, password, custID, nodeID) {
         var self = this;

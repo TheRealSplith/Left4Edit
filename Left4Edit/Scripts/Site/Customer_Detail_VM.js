@@ -30,12 +30,15 @@
         // Client functions (Server called)
         hub.client.returnCustomerByID = function (customer) {
             self.customer(new Left4Edit.customer(customer.ID, customer.Name, customer.Symbol));
+            self.nodes([]);
             customer.Nodes.forEach(function (item) {
-                self.nodes.push(new Left4Edit.node(item.ID, item.Name, item.Address, item.ConnectionComment, self.customer));
+                self.nodes.push(new Left4Edit.node(item.ID, item.Name, item.Address, item.Comment, self.CustomerID));
             });
+            self.contacts([]);
             customer.Contacts.forEach(function (item) {
                 self.contacts.push(new Left4Edit.contact(item.ID, item.FirstName, item.LastName, item.Email, item.Phone, item.Fax, item.CustomerID));
             });
+            self.credentials([]);
             customer.Credentials.forEach(function (item) {
                 self.credentials.push(new Left4Edit.credential(item.ID, item.Domain, item.UserName, item.Password, item.CustomerID, item.NodeID));
             });
@@ -56,11 +59,29 @@
             }
         }
         hub.client.returnUpdateNode = function (node) {
-            for (var i = 0; i < self.credentials().length; i++) {
+            for (var i = 0; i < self.nodes().length; i++) {
                 if (self.nodes()[i].ID() == node.ID) {
-                    self.credentials()[i].xCopy(node);
+                    self.nodes()[i].xCopy(node);
                 }
             }
+        }
+        hub.client.refreshContacts = function (contacts) {
+            self.contacts([]);
+            contacts.forEach(function (item) {
+                self.contacts.push(new Left4Edit.contact(item.ID, item.FirstName, item.LastName, item.Email, item.Phone, item.Fax, item.CustomerID));
+            });
+        }
+        hub.client.refreshCredentials = function (credentials) {
+            self.credentials([]);
+            credentials.forEach(function (item) {
+                self.credentials.push(new Left4Edit.credential(item.ID, item.Domain, item.UserName, item.Password, item.CustomerID, item.NodeID));
+            });
+        }
+        hub.client.refreshNodes = function (nodes) {
+            self.nodes([]);
+            nodes.forEach(function (item) {
+                self.nodes.push(new Left4Edit.node(item.ID, item.Name, item.Address, item.Comment, self.CustomerID));
+            });
         }
         // End of Client Functions
 
@@ -96,6 +117,15 @@
             var n = self.activeNode();
             hub.server.updateNode(ko.toJS(n, Left4Edit.IgnoreJS));
         }
+        this.deleteContact = function (contact) {
+            hub.server.deleteContact(contact.ID());
+        }
+        this.deleteCredential = function (credential) {
+            hub.server.deleteCredential(credential.ID());
+        }
+        this.deleteNode = function (node) {
+            hub.server.deleteNode(node.ID());
+        }
         // End of Commands
 
         // Constructor
@@ -103,7 +133,7 @@
             hub.server.register("customer:" + self.CustomerID);
             hub.server.register("contacts.CustomerID:" + self.CustomerID);
             hub.server.register("credentials.CustomerID:" + self.CustomerID);
-            hub.server.register("node.CustomerID:" + self.CustomerID);
+            hub.server.register("nodes.CustomerID:" + self.CustomerID);
             self.getCustomer(self.CustomerID);
         }
         // End of Constructor
