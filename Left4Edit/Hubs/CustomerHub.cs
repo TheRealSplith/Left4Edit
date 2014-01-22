@@ -170,13 +170,31 @@ namespace Left4Edit.Hubs
             this.Clients.Group("nodes.CustomerID:" + node.CustomerID).returnUpdateNode(node);
         }
 
-        public void AddNode(Node node, Int32 customerID)
+        public void AddNodeToCustomer(Node node, Int32 customerID)
         {
             repo.AddNodeToCustomer(node, customerID);
             repo.SaveChanges();
 
             this.Clients.Group("nodes").refreshNodes(repo.GetNodes());
             this.Clients.Group("nodes.CustomerID:" + customerID).refreshNodes(repo.GetCustomerNodes(customerID));
+        }
+
+        public void AddCredentialToCustomer(Credential cred, Int32 customerID)
+        {
+            repo.AddCredentialToCustomer(cred, customerID);
+            repo.SaveChanges();
+
+            this.Clients.Group("credentials").refreshCredentials(repo.GetNodes());
+            this.Clients.Group("credentials.CustomerID:" + customerID).refreshCredentials(repo.GetCustomerCredentials(customerID));
+        }
+
+        public void AddContactToCustomer(Contact cont, Int32 customerID)
+        {
+            repo.AddContactToCustomer(cont, customerID);
+            repo.SaveChanges();
+
+            this.Clients.Group("contacts").refreshContacts(repo.GetContacts());
+            this.Clients.Group("contacts.CustomerID:" + customerID).refreshContacts(repo.GetCustomerContacts(customerID));
         }
 
         public void DeleteNode(Int32 nodeID)

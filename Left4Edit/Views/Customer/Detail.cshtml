@@ -13,7 +13,13 @@
 <!-- Contact fields -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
-    <h3>Contacts</h3>
+    <h3>
+      Contacts
+      <button data-bind="click: addContact" class="btn btn-success" data-toggle="modal" data-target="#contactDetail">
+          <span class="glyphicon glyphicon-plus"></span>
+          Add Contact
+      </button>
+    </h3>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -45,7 +51,7 @@
 <!-- Credential fields -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
-    <h3>Credentials</h3>
+    <h3>Credentials <button class="btn btn-success" data-bind="click: addCredential" data-toggle="modal" data-target="#credentialDetail"><span class="glyphicon glyphicon-plus"></span> Add Credential</button></h3>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -77,7 +83,7 @@
 <!-- Node fields -->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-1">
-    <h3>Nodes</h3>
+    <h3>Nodes <button class="btn btn-success" data-bind="click: addNode" data-toggle="modal" data-target="#nodeDetail"><span class="glyphicon glyphicon-plus"></span> Add Node</button></h3>
     <table class="table table-striped">
       <thead>
         <tr>

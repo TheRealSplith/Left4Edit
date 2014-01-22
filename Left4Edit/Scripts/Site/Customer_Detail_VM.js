@@ -106,16 +106,52 @@
         }
         this.commitContact = function () {
             var c = self.activeContact();
-            // passed function omits calculated fields
-            hub.server.updateContact(ko.toJS(c,Left4Edit.IgnoreJS));
+            if (c.ID() == null)
+            {
+                c.ID(-1);
+                hub.server.addContactToCustomer(ko.toJS(c, Left4Edit.IgnoreJS), self.CustomerID);
+            } else {
+                // passed function omits calculated fields
+                hub.server.updateContact(ko.toJS(c,Left4Edit.IgnoreJS));
+            }
         }
         this.commitCredential = function () {
-            var c = self.activeCredential();
-            hub.server.updateCredential(ko.toJS(c, Left4Edit.IgnoreJS));
+            if (self.activeCredential().ID() == null) {
+                var c = self.activeCredential();
+                c.ID(-1);
+                hub.server.addCredentialToCustomer(ko.toJS(c, Left4Edit.IgnoreJS), self.CustomerID);
+            } else {
+                var c = self.activeCredential();
+                hub.server.updateCredential(ko.toJS(c, Left4Edit.IgnoreJS));
+            }
         }
         this.commitNode = function () {
-            var n = self.activeNode();
-            hub.server.updateNode(ko.toJS(n, Left4Edit.IgnoreJS));
+            if (self.activeNode().ID() == null) {
+                var n = self.activeNode();
+                // -1 is not an acceptable key, the server will replace it,
+                // but signalr doesn't match signatures if ID is null
+                n.ID(-1);
+                hub.server.addNodeToCustomer(ko.toJS(n, Left4Edit.IgnoreJS), self.CustomerID);
+            }
+            else {
+                var n = self.activeNode();
+                hub.server.updateNode(ko.toJS(n, Left4Edit.IgnoreJS));
+            }
+        }
+        this.addContact = function () {
+            self.activeContact(
+                new Left4Edit.contact(null,null,null,null,null,null,null)
+            );
+        }
+        this.addCredential = function () {
+            self.activeCredential(
+                new Left4Edit.credential(null,null,null,null,null,null)
+            );
+        }
+        this.addNode = function () {
+            self.activeNode(
+                new Left4Edit.node(null,null,null,null,null)
+            );
         }
         this.deleteContact = function (contact) {
             hub.server.deleteContact(contact.ID());
