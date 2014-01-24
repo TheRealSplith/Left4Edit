@@ -70,9 +70,9 @@
         registerExtenders: true,
         insertMessages: false
     });
+    ko.validation.init({ grouping: { deep: true, observable: true } });
 
     var vm = new IndexVM();
     $.connection.hub.start(function () { vm.init() });
-    ko.validation.init({ grouping: { deep: true, observable: true } });
     ko.applyBindings(vm);
 });

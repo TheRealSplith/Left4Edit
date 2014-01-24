@@ -11,23 +11,36 @@
         <h4 class="modal-title" id="myModalTitle">Contact Editor</h4>
       </div>
       <div class="modal-body">
-        <div class="form-inline">
+        <div data-bind="css: { 'has-error': !FirstName.isValid() }">
           <div class="input-group">
             <span class="input-group-addon">First Name</span>
-            <input type="text" data-bind="value: FirstName" class="form-control" placeholder="First Name" />
-            <span class="input-group-addon">Last Name</span>
-            <input type="text" data-bind="value: LastName" class="form-control" placeholder="LastName" />
+            <input type="text" data-bind="value: FirstName, valueUpdate: 'afterKeyDown'" class="form-control" placeholder="First Name" />
           </div>
+          <span class="help-block" data-bind="validationMessage: FirstName"></span>
         </div>
         <br />
-        <div class="input-group">
-          <span class="input-group-addon">Email</span>
-          <input type="text" data-bind="value: Email" class="form-control" placeholder="Email" />
+        <div data-bind="css: { 'has-error': !LastName.isValid() }">
+          <div class="input-group">
+            <span class="input-group-addon">Last Name</span>
+            <input type="text" data-bind="value: LastName, valueUpdate: 'afterKeyDown'" class="form-control" placeholder="LastName" />
+          </div>
+          <span class="help-block" data-bind="validationMessage: LastName"></span>
         </div>
         <br />
-        <div class="input-group">
-          <span class="input-group-addon">Phone</span>
-          <input type="text" data-bind="value: Phone" class="form-control" placeholder="Phone" />
+        <div data-bind="css: { 'has-error': !Email.isValid() }">
+          <div class="input-group">
+            <span class="input-group-addon">Email</span>
+            <input type="text" data-bind="value: Email, valueUpdate: 'afterKeyDown'" class="form-control" placeholder="Email" />
+          </div>
+          <span class="help-block" data-bind="validationMessage: Email"></span>
+        </div>
+        <br />
+        <div data-bind="css: { 'has-error': !Phone.isValid() }">
+          <div class="input-group">
+            <span class="input-group-addon">Phone</span>
+            <input type="text" data-bind="value: Phone, valueUpdate: 'afterKeyDown'" class="form-control" placeholder="Phone" />
+          </div>
+          <span class="help-block" data-bind="validationMessage: Phone"></span>
         </div>
         <br />
         <div class="input-group">
@@ -37,7 +50,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" data-bind="click: @Model[1]" data-dismiss="modal" class="btn btn-primary btn-success">Save changes</button>
+        <button type="button" data-bind="click: @Model[1], disable: !$data.isValid()" data-dismiss="modal" class="btn btn-primary btn-success">Save changes</button>
       </div>
     </div>
   </div>

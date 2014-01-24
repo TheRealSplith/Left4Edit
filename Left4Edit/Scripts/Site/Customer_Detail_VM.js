@@ -8,13 +8,9 @@
         this.nodes = ko.observableArray([]);
         this.contacts = ko.observableArray([]);
 
-        this.newCredential = ko.observable();
-        this.newContact = ko.observable();
-        this.nweNode = ko.observable();
-
-        this.activeCredential = ko.observable();
-        this.activeContact = ko.observable();
-        this.activeNode = ko.observable();
+        this.activeCredential = ko.validatedObservable(new Left4Edit.credential(null, null, null, null, null, null));
+        this.activeContact = ko.validatedObservable(new Left4Edit.contact(null, null, null, null, null, null, null));
+        this.activeNode = ko.validatedObservable(new Left4Edit.node(null, null, null, null, null));
         // Warning
         this.showWarning = ko.observable(false);
         this.warningMessage = ko.observable("");
@@ -90,7 +86,7 @@
             hub.server.getCustomerByID(custID);
         }
         this.selectContact = function (contact) {
-            self.activeContact(
+            self.activeContact = ko.validatedObservable(
               new Left4Edit.contact(contact.ID(), contact.FirstName(), contact.LastName(), contact.Email(), contact.Phone(), contact.Fax(), contact.CustomerID())
             );
         }
@@ -139,8 +135,8 @@
             }
         }
         this.addContact = function () {
-            self.activeContact(
-                new Left4Edit.contact(null,null,null,null,null,null,null)
+            self.activeContact = ko.validatedObservable(
+                new Left4Edit.contact(null,undefined,undefined,null,null,null,null)
             );
         }
         this.addCredential = function () {
@@ -174,6 +170,13 @@
         }
         // End of Constructor
     }
+
+    ko.validation.configure({
+        registerExtenders: true,
+        insertMessages: false
+    });
+    ko.validation.init({ grouping: { deep: true, observable: true } });
+
     // init
     var vm = new DetailVM(MODEL.CustomerID);
     $.connection.hub.start(function () { vm.init() });

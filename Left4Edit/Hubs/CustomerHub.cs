@@ -184,7 +184,7 @@ namespace Left4Edit.Hubs
             repo.AddCredentialToCustomer(cred, customerID);
             repo.SaveChanges();
 
-            this.Clients.Group("credentials").refreshCredentials(repo.GetNodes());
+            this.Clients.Group("credentials").refreshCredentials(repo.GetCredentials());
             this.Clients.Group("credentials.CustomerID:" + customerID).refreshCredentials(repo.GetCustomerCredentials(customerID));
         }
 

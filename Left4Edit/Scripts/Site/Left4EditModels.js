@@ -4,10 +4,16 @@
 
         // Members
         this.ID = ko.observable(id);
-        this.FirstName = ko.observable(fName);
-        this.LastName = ko.observable(lName);
-        this.Email = ko.observable(email);
-        this.Phone = ko.observable(phone);
+        this.FirstName = ko.observable(fName).extend({ required: true, minLength: 2 });
+        this.LastName = ko.observable(lName).extend({ required: true, minLength: 2 });
+        this.Email = ko.observable(email).extend({ required: true, email: true });
+        this.Phone = ko.observable(phone).extend({
+            required: false,
+            pattern: {
+                message: 'Invalid phone number.',
+                params: /^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/
+            }
+        });
         this.Fax = ko.observable(fax);
         this.CustomerID = ko.observable(customerID);
         // Calculated
